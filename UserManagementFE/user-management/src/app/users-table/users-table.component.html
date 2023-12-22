@@ -1,0 +1,18 @@
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Create</th>
+        <th>Read</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+    <tr *ngFor="let user of users">
+        <td>{{ user.username }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{ user.canCreateUsers ? 'Yes' : 'No' }}</td>
+        <td>{{ user.canReadUsers ? 'Yes' : 'No' }}</td>
+        <td>{{ user.canUpdateUsers ? 'Yes' : 'No' }}</td>
+        <td>{{ user.canDeleteUsers ? 'Yes' : 'No' }}</td>
+    </tr>
+</table>

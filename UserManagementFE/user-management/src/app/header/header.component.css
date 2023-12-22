@@ -1,0 +1,36 @@
+/* Apply a background color */
+header {
+    padding: 25px;
+}
+
+/* Style the heading text */
+header h1 {
+    font-size: 24px;
+    /* Adjust the font size as needed */
+    margin: 0;
+    /* Remove any default margin */
+    padding: 0;
+    /* Remove any default padding */
+}
+
+/* Style the navigation menu or links within the header */
+header ul {
+    list-style: none;
+    /* Remove bullet points for lists */
+    margin: 0;
+    /* Remove list margin */
+    padding: 0;
+    /* Remove list padding */
+}
+
+header li {
+    display: inline;
+    /* Display list items horizontally */
+    margin-right: 10px;
+    /* Add spacing between list items */
+}
+
+header a {
+    text-decoration: none;
+    /* Remove underlines from links */
+}

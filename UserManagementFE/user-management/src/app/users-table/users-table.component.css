@@ -1,0 +1,23 @@
+/* user-list.component.css */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  thead {
+    background-color: #f2f2f2;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd; /* Add a border to separate rows */
+  }
+  
+  th {
+    font-weight: bold;
+  }
+  
+  /* Add additional styling as needed */
+  
