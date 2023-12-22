@@ -78,11 +78,12 @@ public class BootstrapData implements CommandLineRunner {
 //            course.setTeacher(teacherRepository.findById((long) (random.nextInt(teachers.size()) + 1)).get());
             course.setTeacher(teachers.get(random.nextInt(teachers.size())));
             for (int j = 0; j < 5; j++) {
-                course.getStudents().add(studentRepository.findById((long) random.nextInt(students.size()) + 1).get());
+//                course.getStudents().add(studentRepository.findById((long) random.nextInt(students.size()) + 1).get());
+                course.getStudents().add(students.get(random.nextInt(students.size())));
             }
 
             CourseMaterial courseMaterial = new CourseMaterial();
-            courseMaterial.setUrl("localhost:8080/courses/" + COURSE_LIST[i].replaceAll(" ", "-"));
+            courseMaterial.setUrl("/courses/" + COURSE_LIST[i].replaceAll(" ", "-"));
             courseMaterial.setCourse(course);
 
             course.setMaterial(courseMaterial);
@@ -92,9 +93,18 @@ public class BootstrapData implements CommandLineRunner {
         User user1 = new User();
         user1.setUsername("user1");
         user1.setPassword(this.passwordEncoder.encode("user1"));
+        user1.setEmail("user1@email.com");
         this.userRepository.save(user1);
 
-
+        User jelena = new User();
+        jelena.setUsername("jelena");
+        jelena.setPassword(this.passwordEncoder.encode("1234"));
+        jelena.setEmail("jelena@email.com");
+        jelena.setCanReadUsers(true);
+        jelena.setCanDeleteUsers(true);
+        jelena.setCanUpdateUsers(true);
+        jelena.setCanCreateUsers(true);
+        this.userRepository.save(jelena);
 
         System.out.println("Data loaded!");
     }
