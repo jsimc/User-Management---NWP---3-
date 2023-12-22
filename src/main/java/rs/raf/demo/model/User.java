@@ -1,6 +1,5 @@
 package rs.raf.demo.model;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,7 @@ public class User {
     private String username;
 
     @Column(nullable = false)
-    private String password; // mora biti unique, i not null
+    private String password;
 
     @Column(nullable = false, unique = true)
     private String email;
