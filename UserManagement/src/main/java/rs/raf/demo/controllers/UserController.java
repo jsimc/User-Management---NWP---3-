@@ -45,7 +45,7 @@ public class UserController {
         try {
             boolean removed = userService.deleteUser(userId);
             if(removed){
-                return ResponseEntity.ok().body("Removed user with id " + userId);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
             return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during removal of user with id " + userId);
         } catch (Exception e) {

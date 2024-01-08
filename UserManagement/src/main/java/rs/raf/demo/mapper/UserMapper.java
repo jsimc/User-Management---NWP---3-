@@ -8,6 +8,7 @@ import rs.raf.demo.model.User;
 public class UserMapper {
     public UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
+        userDto.setUserId(user.getUserId());
         userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
         userDto.setEmail(user.getEmail());
@@ -19,11 +20,16 @@ public class UserMapper {
         return userDto;
     }
 
-    public User mapToUser(Long id, UserDto userDto, PasswordEncoder passwordEncoder) {
+    public User mapToUser(Long id, UserDto userDto, PasswordEncoder passwordEncoder, Boolean isPasswordChanged) {
         User updatedUser = new User();
         updatedUser.setUserId(id); // nadam se da ce ovo da radi
         updatedUser.setUsername(userDto.getUsername());
-        updatedUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        // ako je trenutni password isti kao sto je vec u bazi onda se nije menjao i ne moramo ga encode-ovati opet.
+        if (isPasswordChanged) {
+            updatedUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        } else {
+            updatedUser.setPassword(userDto.getPassword());
+        }
         updatedUser.setEmail(userDto.getEmail());
         updatedUser.setCanCreateUsers(userDto.isCanCreateUsers());
         updatedUser.setCanUpdateUsers(userDto.isCanUpdateUsers());

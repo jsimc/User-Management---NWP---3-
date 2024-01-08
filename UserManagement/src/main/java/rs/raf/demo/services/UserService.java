@@ -79,8 +79,8 @@ public class UserService implements UserDetailsService {
 
     // update
     public UserDto updateUser(Long id, UserDto updatedUserDto) throws UserException {
-        this.userRepository.findById(id).orElseThrow(() -> new UserException("No user with id: " + id));
-        User updatedUser = userMapper.mapToUser(id, updatedUserDto, passwordEncoder);
+        User oldUser = this.userRepository.findById(id).orElseThrow(() -> new UserException("No user with id: " + id));
+        User updatedUser = userMapper.mapToUser(id, updatedUserDto, passwordEncoder, !oldUser.getPassword().equals(updatedUserDto.getPassword()));
         return userMapper.mapToUserDto(userRepository.save(updatedUser));
     }
 

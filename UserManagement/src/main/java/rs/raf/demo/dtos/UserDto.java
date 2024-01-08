@@ -11,6 +11,7 @@ import org.springframework.lang.Nullable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
+    private Long userId;
     private String username;
     private String email;
     private String password;
