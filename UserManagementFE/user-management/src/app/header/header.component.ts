@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  canCreateUsers: boolean | undefined;
+  ngOnInit() {
+    this.canCreateUsers = JSON.parse(sessionStorage.getItem('loggedInUser') || '').canCreateUsers;
 
+  }
 }

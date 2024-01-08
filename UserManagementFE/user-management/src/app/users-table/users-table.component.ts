@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-table',
@@ -7,15 +8,17 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./users-table.component.css']
 })
 export class UsersTableComponent {
+  @Output() deleteUserEmitter = new EventEmitter<any>();
   users: any;
-  constructor(private userService: UserService) { }
+  canDeleteUsers: boolean = JSON.parse(sessionStorage.getItem('loggedInUser') || '').canDeleteUsers;
+  canUpdateUsers: boolean = JSON.parse(sessionStorage.getItem('loggedInUser') || '').canUpdateUsers;
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
     this.getAllUsers();
   }
 
   getAllUsers() {
-    console.log("Hello kliknut");
     this.userService.getAllUsers()
     .subscribe({
       error: (err) => alert(err),
@@ -24,5 +27,24 @@ export class UsersTableComponent {
       },
       complete: () => console.log('completed')
     });
+  }
+
+  updateUser(selectedUser: any) {
+    console.log('Selected user: ', selectedUser);
+    sessionStorage.setItem('selectedUser', JSON.stringify(selectedUser));
+    this.router.navigate(['/edit']);
+  }
+  deleteUser(userForDelete: any) {
+    this.userService.deleteUser(userForDelete.userId)
+    .subscribe({
+      error: (err) => { 
+        console.log('err: ', err);
+        alert(err);
+      },
+      next: (response) => {
+        this.router.navigate(['/home']);
+        this.ngOnInit();
+      }
+    })
   }
 }

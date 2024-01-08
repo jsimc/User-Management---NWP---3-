@@ -1,0 +1,28 @@
+<h2>Logged in user</h2>
+<div>
+    <p>username:</p>
+    <p>{{ loggedUser.username }}</p>
+</div>
+<!-- <p class="password">{{ loggedUser.password }}</p> -->
+<div>
+    <p>email:</p>
+    <p>{{ loggedUser.email }}</p>
+</div>
+<p>Permissions: </p>
+<div>
+    <p>Create:</p>
+    <p>{{ loggedUser.canCreateUsers ? 'Yes' : 'No' }}</p>
+</div>
+<div>
+    <p>Read:</p>
+    <p>{{ loggedUser.canReadUsers ? 'Yes' : 'No' }}</p>
+</div>
+<div>
+    <p>Update:</p>
+    <p>{{ loggedUser.canUpdateUsers ? 'Yes' : 'No' }}</p>
+</div>
+<div>
+    <p>Delete:</p>
+    <p>{{ loggedUser.canDeleteUsers ? 'Yes' : 'No' }}</p>
+</div>
+<button (click)="logout()">Log out</button>

@@ -1,7 +1,8 @@
 <table>
     <tr>
         <th>Username</th>
-        <th>Password</th>
+        <th>Email</th>
+        <!-- <th>Password</th> -->
         <th>Create</th>
         <th>Read</th>
         <th>Update</th>
@@ -9,10 +10,13 @@
     </tr>
     <tr *ngFor="let user of users">
         <td>{{ user.username }}</td>
-        <td>{{ user.password }}</td>
+        <td>{{ user.email }}</td>
+        <!-- <td>{{ user.password }}</td> -->
         <td>{{ user.canCreateUsers ? 'Yes' : 'No' }}</td>
         <td>{{ user.canReadUsers ? 'Yes' : 'No' }}</td>
         <td>{{ user.canUpdateUsers ? 'Yes' : 'No' }}</td>
         <td>{{ user.canDeleteUsers ? 'Yes' : 'No' }}</td>
+        <button *ngIf="canUpdateUsers" (click)="updateUser(user)">Update</button>
+        <button *ngIf="canDeleteUsers" (click)="deleteUser(user)">Delete</button>
     </tr>
 </table>

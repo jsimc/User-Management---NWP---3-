@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Jelena Simic NWP </title>
+    <title>Jelena Simic NWP 3</title>
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <li><a routerLink="/">Entity Extraction</a></li>
-                <li><a routerLink="/language-detection">Language Detection</a></li>
-                <li><a routerLink="/sentiment-analysis">Sentiment Analysis</a></li>
-                <li><a routerLink="/text-similarity">Text Similarity</a></li>
-                <li><a routerLink="/token-auth">Token Auth</a></li>
-                <li><a routerLink="/history">History</a></li>
+                <!-- <li><a routerLink="/login">Login</a></li> -->
+                <li><a routerLink="/home">Home</a></li>
+                <li><a routerLink="/read">Read</a></li>
+                <li *ngIf="canCreateUsers"><a routerLink="/create">Create</a></li>
+                <!-- <li><a routerLink="/edit">Edit</a></li> -->
             </ul>
         </nav>
     </header>

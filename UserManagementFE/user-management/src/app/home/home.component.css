@@ -1,0 +1,6 @@
+div {
+    display: flex;
+}
+div p {
+    padding: 12px;
+}
