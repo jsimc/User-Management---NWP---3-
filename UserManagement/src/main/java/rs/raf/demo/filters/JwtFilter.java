@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import rs.raf.demo.model.MyUserDetails;
 import rs.raf.demo.services.UserService;
 import rs.raf.demo.utils.JwtUtil;
 
@@ -40,7 +41,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.userService.loadUserByUsername(username);
+            MyUserDetails userDetails = (MyUserDetails) this.userService.loadUserByUsername(username);
+            System.out.println("userDetails id: "+ userDetails.getUserId());
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
 

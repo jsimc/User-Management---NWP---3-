@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import rs.raf.demo.filters.JwtFilter;
 import rs.raf.demo.handlers.MyAccessDeniedHandler;
 import rs.raf.demo.model.UserAuthority;
+import rs.raf.demo.model.VacuumAuthority;
 import rs.raf.demo.services.UserService;
 
 @EnableWebSecurity
@@ -45,10 +46,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers(HttpMethod.GET).hasAuthority(UserAuthority.CAN_READ_USERS.name())
-                .antMatchers(HttpMethod.POST).hasAuthority(UserAuthority.CAN_CREATE_USERS.name())
-                .antMatchers(HttpMethod.DELETE).hasAuthority(UserAuthority.CAN_DELETE_USERS.name())
-                .antMatchers(HttpMethod.PUT).hasAuthority(UserAuthority.CAN_UPDATE_USERS.name())
+                .antMatchers(HttpMethod.GET, "/users/all").hasAuthority(UserAuthority.CAN_READ_USERS.name())
+                .antMatchers(HttpMethod.POST, "/users/create" ).hasAuthority(UserAuthority.CAN_CREATE_USERS.name())
+                .antMatchers(HttpMethod.DELETE, "/users/delete/**").hasAuthority(UserAuthority.CAN_DELETE_USERS.name())
+                .antMatchers(HttpMethod.PUT, "/users/update/**").hasAuthority(UserAuthority.CAN_UPDATE_USERS.name())
+                .antMatchers(HttpMethod.GET, "/vacuum/search").hasAuthority(VacuumAuthority.CAN_SEARCH_VACUUM.name())
+                .antMatchers(HttpMethod.POST, "/vacuum/start/**").hasAuthority(VacuumAuthority.CAN_START_VACUUM.name())
+                .antMatchers(HttpMethod.POST, "/vacuum/stop/**").hasAuthority(VacuumAuthority.CAN_STOP_VACUUM.name())
+                .antMatchers(HttpMethod.POST, "/vacuum/discharge/**").hasAuthority(VacuumAuthority.CAN_DISCHARGE_VACUUM.name())
+                .antMatchers(HttpMethod.POST, "/vacuum/add").hasAuthority(VacuumAuthority.CAN_ADD_VACUUM.name())
+                .antMatchers(HttpMethod.PUT, "/vacuum/remove/**").hasAuthority(VacuumAuthority.CAN_REMOVE_VACUUM.name())
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())

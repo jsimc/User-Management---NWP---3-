@@ -12,8 +12,10 @@ import rs.raf.demo.configuration.UserPasswordEncoder;
 import rs.raf.demo.dtos.UserDto;
 import rs.raf.demo.exceptions.UserException;
 import rs.raf.demo.mapper.UserMapper;
+import rs.raf.demo.model.MyUserDetails;
 import rs.raf.demo.model.User;
 import rs.raf.demo.model.UserAuthority;
+import rs.raf.demo.model.VacuumAuthority;
 import rs.raf.demo.repositories.UserRepository;
 
 import java.util.ArrayList;
@@ -51,7 +53,21 @@ public class UserService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(UserAuthority.CAN_UPDATE_USERS.name()));
         if(myUser.isCanDeleteUsers())
             authorities.add(new SimpleGrantedAuthority(UserAuthority.CAN_DELETE_USERS.name()));
-        return new org.springframework.security.core.userdetails.User(myUser.getUsername(), myUser.getPassword(), authorities);
+
+        if(myUser.isCanSearchVacuum())
+            authorities.add(new SimpleGrantedAuthority(VacuumAuthority.CAN_SEARCH_VACUUM.name()));
+        if(myUser.isCanStartVacuum())
+            authorities.add(new SimpleGrantedAuthority(VacuumAuthority.CAN_START_VACUUM.name()));
+        if(myUser.isCanStopVacuum())
+            authorities.add(new SimpleGrantedAuthority(VacuumAuthority.CAN_STOP_VACUUM.name()));
+        if(myUser.isCanDischargeVacuum())
+            authorities.add(new SimpleGrantedAuthority(VacuumAuthority.CAN_DISCHARGE_VACUUM.name()));
+        if(myUser.isCanAddVacuum())
+            authorities.add(new SimpleGrantedAuthority(VacuumAuthority.CAN_ADD_VACUUM.name()));
+        if(myUser.isCanRemoveVacuum())
+            authorities.add(new SimpleGrantedAuthority(VacuumAuthority.CAN_REMOVE_VACUUM.name()));
+
+        return new MyUserDetails(myUser.getUsername(), myUser.getPassword(), authorities, myUser.getUserId());
     }
     //read
     public UserDto getUserByUsername(String username) {
@@ -84,5 +100,11 @@ public class UserService implements UserDetailsService {
         return userMapper.mapToUserDto(userRepository.save(updatedUser));
     }
 
+    public User updateUser(User user) throws UserException {
+        return userRepository.save(user);
+    }
 
+    public User findUserById(Long id) throws UserException {
+        return this.userRepository.findById(id).orElseThrow(() -> new UserException("No user with id: " + id));
+    }
 }

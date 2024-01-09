@@ -2,15 +2,10 @@ package rs.raf.demo.bootstrap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import rs.raf.demo.model.*;
 import rs.raf.demo.repositories.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 @Component
 public class BootstrapData implements CommandLineRunner {
@@ -20,16 +15,17 @@ public class BootstrapData implements CommandLineRunner {
     private final CourseMaterialRepository courseMaterialRepository;
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
-
+    private final VacuumRepository vacuumRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public BootstrapData(StudentRepository studentRepository, CourseRepository courseRepository, CourseMaterialRepository courseMaterialRepository, TeacherRepository teacherRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public BootstrapData(StudentRepository studentRepository, CourseRepository courseRepository, CourseMaterialRepository courseMaterialRepository, TeacherRepository teacherRepository, UserRepository userRepository, VacuumRepository vacuumRepository, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.courseRepository = courseRepository;
         this.courseMaterialRepository = courseMaterialRepository;
         this.teacherRepository = teacherRepository;
         this.userRepository = userRepository;
+        this.vacuumRepository = vacuumRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -38,57 +34,6 @@ public class BootstrapData implements CommandLineRunner {
 
         System.out.println("Loading Data...");
 
-        String[] FIRST_NAME_LIST = {"John-James", "Justine", "Ahsan", "Leja", "Jad", "Vernon", "Cara", "Eddison", "Eira", "Emily"};
-        String[] LAST_NAME_LIST = {"Booker", "Summers", "Reyes", "Rahman", "Crane", "Cairns", "Hebert", "Bradshaw", "Shannon", "Phillips"};
-        String[] COURSE_LIST = {"Data Science BSc", "Data Science MSci", "Diagnostic Radiography and Imaging (Degree Apprenticeship) BSc (Hons)", "Digital and Technology Solutions degree apprenticeship", "Drama BA", "Drama and Film & Television Studies BA"};
-
-        Random random = new Random();
-
-        List<Teacher> teachers = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Teacher teacher = new Teacher();
-            teacher.setFirstName(FIRST_NAME_LIST[random.nextInt(FIRST_NAME_LIST.length)]);
-            teacher.setLastName(LAST_NAME_LIST[random.nextInt(LAST_NAME_LIST.length)]);
-            teachers.add(teacher);
-        }
-        System.out.println(teacherRepository.saveAll(teachers));
-
-        List<Student> students = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-
-            Student student = new Student();
-            student.setFirstName(FIRST_NAME_LIST[random.nextInt(FIRST_NAME_LIST.length)]);
-            student.setLastName(LAST_NAME_LIST[random.nextInt(LAST_NAME_LIST.length)]);
-
-            Address address = new Address();
-            address.setStreet("Knez Mihajlova");
-            address.setNumber(String.valueOf(i + 1));
-            address.setCity("Belgrade");
-            student.setAddress(address);
-
-            students.add(student);
-            System.out.println(studentRepository.save(student));
-        }
-
-        for (int i = 0; i < COURSE_LIST.length; i++) {
-
-            Course course = new Course();
-            course.setTitle(COURSE_LIST[i]);
-
-//            course.setTeacher(teacherRepository.findById((long) (random.nextInt(teachers.size()) + 1)).get());
-            course.setTeacher(teachers.get(random.nextInt(teachers.size())));
-            for (int j = 0; j < 5; j++) {
-//                course.getStudents().add(studentRepository.findById((long) random.nextInt(students.size()) + 1).get());
-                course.getStudents().add(students.get(random.nextInt(students.size())));
-            }
-
-            CourseMaterial courseMaterial = new CourseMaterial();
-            courseMaterial.setUrl("/courses/" + COURSE_LIST[i].replaceAll(" ", "-"));
-            courseMaterial.setCourse(course);
-
-            course.setMaterial(courseMaterial);
-            courseRepository.save(course);
-        }
         User admin = new User();
         admin.setUsername("admin");
         admin.setPassword(this.passwordEncoder.encode("admin"));
@@ -97,6 +42,12 @@ public class BootstrapData implements CommandLineRunner {
         admin.setCanDeleteUsers(true);
         admin.setCanUpdateUsers(true);
         admin.setCanCreateUsers(true);
+        admin.setCanSearchVacuum(true);
+        admin.setCanStartVacuum(true);
+        admin.setCanStopVacuum(true);
+        admin.setCanDischargeVacuum(true);
+        admin.setCanAddVacuum(true);
+        admin.setCanRemoveVacuum(true);
         this.userRepository.save(admin);
 
         User user1 = new User();
@@ -104,6 +55,9 @@ public class BootstrapData implements CommandLineRunner {
         user1.setPassword(this.passwordEncoder.encode("user1"));
         user1.setEmail("user1@email.com");
         user1.setCanReadUsers(true);
+        user1.setCanSearchVacuum(true);
+        user1.setCanAddVacuum(true);
+        user1.setCanRemoveVacuum(true);
         this.userRepository.save(user1);
 
         User jelena = new User();
@@ -114,7 +68,24 @@ public class BootstrapData implements CommandLineRunner {
         jelena.setCanDeleteUsers(true);
         jelena.setCanUpdateUsers(true);
         jelena.setCanCreateUsers(true);
+
+        jelena.setCanSearchVacuum(true);
+        jelena.setCanStartVacuum(true);
+        jelena.setCanStopVacuum(true);
+        jelena.setCanDischargeVacuum(true);
+        jelena.setCanAddVacuum(true);
+        jelena.setCanRemoveVacuum(true);
+
+        Vacuum vacuum1 = new Vacuum();
+        vacuum1.setName("vacuum1");
+        vacuum1.setActive(true); // da li je u sistemu !
+        vacuum1.setStatus(Status.OFF);
+
+        jelena.addVacuum(vacuum1);
         this.userRepository.save(jelena);
+
+/////////////////////////////////////////////////////////
+
 
         System.out.println("Data loaded!");
     }

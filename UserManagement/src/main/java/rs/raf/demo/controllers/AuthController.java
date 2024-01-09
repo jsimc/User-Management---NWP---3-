@@ -32,11 +32,11 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        } catch (Exception   e){
+        } catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).build();
         }
-
+        // treba mi id korisnika ulogovanog
         return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getUsername())));
     }
 
