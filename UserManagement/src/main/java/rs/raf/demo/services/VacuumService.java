@@ -40,7 +40,9 @@ public class VacuumService implements IService<Vacuum, Long> {
     }
     public boolean start(Long vacuumId) throws VacuumException{
         Vacuum vacuum = vacuumRepository.findById(vacuumId)
-                .orElseThrow(() -> new VacuumException("There is no vacuum with the id: " + vacuumId));
+            .orElseThrow(() ->
+                new VacuumException(new ErrorMessage(vacuumId, "VacuumService.start(Long vacuumId)", "There is no vacuum with the id: " + vacuumId))
+            );
         if(this.usingVacuums.contains(vacuum)) {
             throw new VacuumException(new ErrorMessage(vacuumId, "VacuumService.start(Long vacuumId)", "Vacuum is in use."));
         }
@@ -55,12 +57,17 @@ public class VacuumService implements IService<Vacuum, Long> {
                 vacuumRepository.save(vacuum);
             }, 7, TimeUnit.SECONDS);
         } else {
-            throw new VacuumException("Vacuum with id {" + vacuumId + "} is not OFF!");
+            throw new VacuumException(
+                new ErrorMessage(vacuumId, "VacuumService.start(Long vacuumId)", "Vacuum with id {" + vacuumId + "} is not OFF!")
+            );
         }
         return true;
     }
     public boolean stop(Long vacuumId) throws VacuumException {
-        Vacuum vacuum = vacuumRepository.findById(vacuumId).orElseThrow(() -> new VacuumException("There is no vacuum with the id: " + vacuumId));
+        Vacuum vacuum = vacuumRepository.findById(vacuumId)
+            .orElseThrow(() ->
+                new VacuumException(new ErrorMessage(vacuumId, "VacuumService.start(Long vacuumId)", "There is no vacuum with the id: " + vacuumId))
+            );
         // prvo moram pitati da li se usisivac nalazi u set usingVacuums,
         // ako se nalazi onda treba da izbacim gresku! Error Handler mora da se napravi.
         if(this.usingVacuums.contains(vacuum)) {
@@ -87,7 +94,7 @@ public class VacuumService implements IService<Vacuum, Long> {
                 vacuumRepository.save(vacuum);
             }, 7, TimeUnit.SECONDS); //TODO change to 15s
         } else {
-            throw new VacuumException("Vacuum with id {" + vacuumId + "} is not ON!");
+            throw new VacuumException(new ErrorMessage(vacuumId, "VacuumService.start(Long vacuumId)", "Vacuum with id {" + vacuumId + "} is not ON!"));
         }
         return true;
     }
@@ -95,7 +102,10 @@ public class VacuumService implements IService<Vacuum, Long> {
     public boolean discharge(Long vacuumId, Vacuum vacuumForDischarge, boolean fromStop) throws VacuumException {
         Vacuum vacuum;
         if(vacuumForDischarge != null) vacuum = vacuumForDischarge;
-        else vacuum = vacuumRepository.findById(vacuumId).orElseThrow(() -> new VacuumException("There is no vacuum with the id: " + vacuumId));
+        else vacuum = vacuumRepository.findById(vacuumId)
+            .orElseThrow(() ->
+                new VacuumException(new ErrorMessage(vacuumId, "VacuumService.start(Long vacuumId)", "There is no vacuum with the id: " + vacuumId))
+            );
         if(!fromStop && this.usingVacuums.contains(vacuum)) {
             throw new VacuumException(
                 new ErrorMessage(vacuumId, "VacuumService.discharge(Long vacuumId, Vacuum vacuumForDischarge, boolean fromStop)", "Vacuum is in use.")
@@ -119,7 +129,7 @@ public class VacuumService implements IService<Vacuum, Long> {
                 if(!fromStop) vacuumRepository.save(vacuum);
             }, 6, TimeUnit.SECONDS); //TODO change to 17s
         } else {
-            throw new VacuumException("Cannot discharge! Vacuum with id {" + vacuumId + "} is not OFF!");
+            throw new VacuumException(new ErrorMessage(vacuumId, "VacuumService.start(Long vacuumId)", "Cannot discharge! Vacuum with id {" + vacuumId + "} is not OFF!"));
         }
         return true;
     }
@@ -140,7 +150,10 @@ public class VacuumService implements IService<Vacuum, Long> {
     }
 
     public boolean removeVacuum(Long vacuumId) throws VacuumException {
-        Vacuum vacuum = this.vacuumRepository.findById(vacuumId).orElseThrow(() -> new VacuumException("There is no vacuum with the id: " + vacuumId));
+        Vacuum vacuum = this.vacuumRepository.findById(vacuumId)
+            .orElseThrow(() ->
+                new VacuumException(new ErrorMessage(vacuumId, "VacuumService.start(Long vacuumId)", "There is no vacuum with the id: " + vacuumId))
+            );
         if(this.usingVacuums.contains(vacuum)) {
             throw new VacuumException(new ErrorMessage(vacuumId, "VacuumService.removeVacuum(Long vacuumId)", "Vacuum is in use."));
         }
@@ -149,7 +162,7 @@ public class VacuumService implements IService<Vacuum, Long> {
             this.vacuumRepository.save(vacuum);
             return true;
         }
-        throw new VacuumException("Cannot remove! Vacuum with id {" + vacuumId + "} is not OFF!");
+        throw new VacuumException(new ErrorMessage(vacuumId, "VacuumService.start(Long vacuumId)", "Cannot remove! Vacuum with id {" + vacuumId + "} is not OFF!"));
     }
 
     /**

@@ -14,10 +14,7 @@ import rs.raf.demo.services.VacuumService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -44,17 +41,17 @@ public class VacuumController {
 
     @PostMapping(value = "/start/{vacuumId}")
     public ResponseEntity<?> startVacuum(@PathVariable Long vacuumId) throws VacuumException {
-        return new ResponseEntity<>(vacuumService.start(vacuumId), HttpStatus.OK);
+        return ResponseEntity.ok(Map.of("response", vacuumService.start(vacuumId)));
     }
 
     @PostMapping(value = "/stop/{vacuumId}")
     public ResponseEntity<?> stopVacuum(@PathVariable Long vacuumId) throws VacuumException {
-        return new ResponseEntity<>(vacuumService.stop(vacuumId), HttpStatus.OK);
+        return ResponseEntity.ok().body(Map.of("response", vacuumService.stop(vacuumId)));
     }
 
     @PostMapping(value = "/discharge/{vacuumId}")
     public ResponseEntity<?> dischargeVacuum(@PathVariable Long vacuumId) throws VacuumException {
-        return new ResponseEntity<>(vacuumService.discharge(vacuumId, null, false), HttpStatus.OK);
+        return ResponseEntity.ok(Map.of("response", vacuumService.discharge(vacuumId, null, false)));
     }
 
     // add
