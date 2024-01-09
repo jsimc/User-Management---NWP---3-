@@ -74,4 +74,14 @@ public class VacuumController {
         return new ResponseEntity<>(vacuumService.removeVacuum(vacuumId), HttpStatus.OK);
     }
 
+    // schedule a vacuum task
+    @PostMapping("/schedule")
+    public ResponseEntity<?> scheduleVacuumTask(
+        @RequestParam(name = "dateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime localDateTime,
+        @RequestParam(name = "operation") String operation,
+        @RequestParam(name = "vacuumId") Long vacuumId
+    ) throws VacuumException {
+        return new ResponseEntity<>(vacuumService.schedule(vacuumId, operation, localDateTime), HttpStatus.OK);
+    }
+
 }

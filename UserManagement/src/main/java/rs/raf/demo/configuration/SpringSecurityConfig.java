@@ -3,6 +3,8 @@ package rs.raf.demo.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +22,8 @@ import rs.raf.demo.model.VacuumAuthority;
 import rs.raf.demo.services.UserService;
 
 @EnableWebSecurity
+@EnableScheduling
+@EnableAsync
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
@@ -56,6 +60,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/vacuum/discharge/**").hasAuthority(VacuumAuthority.CAN_DISCHARGE_VACUUM.name())
                 .antMatchers(HttpMethod.POST, "/vacuum/add").hasAuthority(VacuumAuthority.CAN_ADD_VACUUM.name())
                 .antMatchers(HttpMethod.PUT, "/vacuum/remove/**").hasAuthority(VacuumAuthority.CAN_REMOVE_VACUUM.name())
+                .antMatchers(HttpMethod.POST, "/vacuum/schedule").hasAnyAuthority(VacuumAuthority.CAN_START_VACUUM.name(), VacuumAuthority.CAN_STOP_VACUUM.name(), VacuumAuthority.CAN_DISCHARGE_VACUUM.name())
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())

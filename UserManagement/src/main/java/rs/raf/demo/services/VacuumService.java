@@ -1,7 +1,7 @@
 package rs.raf.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import rs.raf.demo.exceptions.UserException;
@@ -9,7 +9,7 @@ import rs.raf.demo.exceptions.VacuumException;
 import rs.raf.demo.model.*;
 import rs.raf.demo.repositories.VacuumRepository;
 
-import java.time.LocalDate;
+import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -17,12 +17,15 @@ import java.util.concurrent.*;
 public class VacuumService implements IService<Vacuum, Long> {
     private final VacuumRepository vacuumRepository;
     private final UserService userService;
-
     private final Set<Vacuum> usingVacuums;
+    private TaskScheduler taskScheduler;
+    private ErrorMessageService errorMessageService;
 
     @Autowired
-    public VacuumService(VacuumRepository vacuumRepository, UserService userService) {
+    public VacuumService(VacuumRepository vacuumRepository, UserService userService, TaskScheduler taskScheduler, ErrorMessageService errorMessageService) {
         this.vacuumRepository = vacuumRepository;
+        this.taskScheduler = taskScheduler;
+        this.errorMessageService = errorMessageService;
         this.usingVacuums = new HashSet<>();
         this.userService = userService;
     }
@@ -149,15 +152,61 @@ public class VacuumService implements IService<Vacuum, Long> {
         throw new VacuumException("Cannot remove! Vacuum with id {" + vacuumId + "} is not OFF!");
     }
 
-    // TODO Schedule Start/Stop/Discharge task
-    public void schedule() {
-        /**
-            CronTrigger cronTrigger = new CronTrigger("0 0 0 25 * *"); // "0 0 0 25 * *"
-            this.taskScheduler.schedule(() -> {
-                System.out.println("Getting salary...");
-                this.userRepository.increaseBalance(salary, username);
-            }, cronTrigger);
-        */
+    /**
+     *
+     * @param vacuumId
+     * @param operation start, stop, discharge
+     * @param localDateTime 2024-01-11T11:15
+     * @return true if successfully scheduled
+     * @throws VacuumException
+     */
+    public boolean schedule(Long vacuumId, String operation, LocalDateTime localDateTime) throws VacuumException {
+        // ukoliko je uneta operacija koja ne sme
+        List<String> operations = List.of("start", "stop", "discharge");
+        if(!operations.contains(operation.toLowerCase())) {
+            throw new VacuumException(
+                new ErrorMessage(vacuumId, "VacuumService.schedule(Long vacuumId, String operation, LocalDateTime localDateTime)", "Bad operation: " + operation)
+            );
+        }
+        Vacuum vacuum = this.vacuumRepository.findById(vacuumId)
+            .orElseThrow(() ->
+                new VacuumException(new ErrorMessage(vacuumId, "VacuumService.schedule(Long vacuumId, String operation, LocalDateTime localDateTime)", "There is no vacuum with the id: " + vacuumId))
+            );
+
+        this.taskScheduler.schedule(() -> {
+            System.out.println("Getting salary...");
+            switch (operation) {
+                case "start":
+                    try {
+                        this.start(vacuumId);
+                    } catch (VacuumException e) {
+                        if(e.getErrorMessage() != null) {
+                            this.errorMessageService.save(e.getErrorMessage());
+                        }
+                    }
+                    break;
+                case "stop":
+                    try {
+                        this.stop(vacuumId);
+                    } catch (VacuumException e) {
+                        if(e.getErrorMessage() != null) {
+                            this.errorMessageService.save(e.getErrorMessage());
+                        }
+                    }
+                    break;
+                case "discharge":
+                    try {
+                        this.discharge(vacuumId, null, false);
+                    } catch (VacuumException e) {
+                        if(e.getErrorMessage() != null) {
+                            this.errorMessageService.save(e.getErrorMessage());
+                        }
+                    }
+                    break;
+                default:
+            }
+        }, localDateTime.atZone(ZoneId.of("CET")).toInstant());
+        return true;
     }
     @Override
     public <S extends Vacuum> S save(S var1) {
