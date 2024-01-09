@@ -43,38 +43,23 @@ public class VacuumController {
     }
 
     @PostMapping(value = "/start/{vacuumId}")
-    public ResponseEntity<?> startVacuum(@PathVariable Long vacuumId) {
-        try {
-            return new ResponseEntity<>(vacuumService.start(vacuumId), HttpStatus.OK);
-        } catch (VacuumException vacuumException) {
-            System.out.println(vacuumException.getMessage());
-            return new ResponseEntity<>(vacuumException.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> startVacuum(@PathVariable Long vacuumId) throws VacuumException {
+        return new ResponseEntity<>(vacuumService.start(vacuumId), HttpStatus.OK);
     }
 
     @PostMapping(value = "/stop/{vacuumId}")
-    public ResponseEntity<?> stopVacuum(@PathVariable Long vacuumId) {
-        try {
-            return new ResponseEntity<>(vacuumService.stop(vacuumId), HttpStatus.OK);
-        } catch (VacuumException vacuumException) {
-            System.out.println(vacuumException.getMessage());
-            return new ResponseEntity<>(vacuumException.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> stopVacuum(@PathVariable Long vacuumId) throws VacuumException {
+        return new ResponseEntity<>(vacuumService.stop(vacuumId), HttpStatus.OK);
     }
 
     @PostMapping(value = "/discharge/{vacuumId}")
-    public ResponseEntity<?> dischargeVacuum(@PathVariable Long vacuumId) {
-        try {
-            return new ResponseEntity<>(vacuumService.discharge(vacuumId, null, true), HttpStatus.OK);
-        } catch (VacuumException vacuumException) {
-            System.out.println(vacuumException.getMessage());
-            return new ResponseEntity<>(vacuumException.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> dischargeVacuum(@PathVariable Long vacuumId) throws VacuumException {
+        return new ResponseEntity<>(vacuumService.discharge(vacuumId, null, false), HttpStatus.OK);
     }
 
     // add
     @PostMapping("/add")
-    public ResponseEntity<Vacuum> createUser(@RequestParam(name = "name") String name) {
+    public ResponseEntity<Vacuum> createVacuum(@RequestParam(name = "name") String name) {
         try {
             return new ResponseEntity<>(vacuumService.addVacuum(name), HttpStatus.OK);
         } catch (UserException e) {
@@ -82,18 +67,11 @@ public class VacuumController {
             throw new RuntimeException(e);
         }
     }
-    @PutMapping("/remove/{vacuumId}")
-    public ResponseEntity<?> removeVacuum(@PathVariable Long vacuumId) {
-        try {
-            boolean removed = vacuumService.removeVacuum(vacuumId);
-            if(removed){
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during removal of vacuum with id " + vacuumId);
-        } catch (VacuumException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
+
     // remove
+    @PutMapping("/remove/{vacuumId}")
+    public ResponseEntity<?> removeVacuum(@PathVariable Long vacuumId) throws VacuumException {
+        return new ResponseEntity<>(vacuumService.removeVacuum(vacuumId), HttpStatus.OK);
+    }
 
 }

@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -51,5 +52,18 @@ public class Vacuum {
                 "vacuumId=" + vacuumId +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vacuum vacuum = (Vacuum) o;
+        return Objects.equals(vacuumId, vacuum.vacuumId) && status == vacuum.status && Objects.equals(name, vacuum.name) && Objects.equals(active, vacuum.active) && Objects.equals(version, vacuum.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vacuumId, status, name, active, version);
     }
 }
