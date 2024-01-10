@@ -18,7 +18,7 @@
       </div>
   
       <div class="form-group">
-        <label>Permissions:</label>
+        <label>User Permissions:</label>
         <div class="permissions">
           <label>
             <input type="checkbox" formControlName="canCreateUsers"> Create
@@ -31,6 +31,27 @@
           </label>
           <label>
             <input type="checkbox" formControlName="canDeleteUsers"> Delete
+          </label>
+        </div>
+        <label>Vacuum Permissions:</label>
+        <div>
+          <label>
+            <input type="checkbox" formControlName="canSearchVacuum"> Search
+          </label>
+          <label>
+            <input type="checkbox" formControlName="canStartVacuum"> Start
+          </label>
+          <label>
+            <input type="checkbox" formControlName="canStopVacuum"> Stop
+          </label>
+          <label>
+            <input type="checkbox" formControlName="canDischargeVacuum"> Discharge
+          </label>
+          <label>
+            <input type="checkbox" formControlName="canAddVacuum"> Add
+          </label>
+          <label>
+            <input type="checkbox" formControlName="canRemoveVacuum"> Remove
           </label>
         </div>
       </div>

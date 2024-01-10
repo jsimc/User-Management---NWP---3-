@@ -1,0 +1,17 @@
+<div>
+    <h2>Error History</h2>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Vacuum Id</th>
+            <th>Operation</th>
+            <th>Message</th>
+        </tr>
+        <tr *ngFor="let error of errors">
+            <td>{{ error.dateCreated | date }}</td>
+            <td>{{ error.vacuumId }}</td>
+            <td>{{ error.operation }}</td>
+            <td>{{ error.errorMessage }}</td>
+        </tr>
+    </table>
+  </div>

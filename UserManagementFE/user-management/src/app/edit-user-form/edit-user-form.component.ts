@@ -45,7 +45,14 @@ export class EditUserFormComponent {
       canCreateUsers: [this.selectedUser.canCreateUsers],
       canReadUsers: [this.selectedUser.canReadUsers],
       canUpdateUsers: [this.selectedUser.canUpdateUsers],
-      canDeleteUsers: [this.selectedUser.canDeleteUsers]
+      canDeleteUsers: [this.selectedUser.canDeleteUsers],
+      
+      canSearchVacuum: [this.selectedUser.canSearchVacuum],
+      canStartVacuum: [this.selectedUser.canStartVacuum],
+      canStopVacuum: [this.selectedUser.canStopVacuum],
+      canDischargeVacuum: [this.selectedUser.canDischargeVacuum],
+      canAddVacuum: [this.selectedUser.canAddVacuum],
+      canRemoveVacuum: [this.selectedUser.canRemoveVacuum],
     });
   
   }

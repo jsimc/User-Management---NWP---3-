@@ -1,0 +1,10 @@
+<form>
+    <div class="form-group">
+      <label for="name">Vacuum name: </label>
+      <input type="text" id="name" name="name" [(ngModel)]="vacuumName" required>
+    </div>
+
+    <button type="button" (click)="add()">Add vacuum</button>
+</form>
+
+<p>{{ response }}</p>

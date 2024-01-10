@@ -7,15 +7,29 @@
         <th>Read</th>
         <th>Update</th>
         <th>Delete</th>
+
+        <th>Search</th>
+        <th>Start</th>
+        <th>Stop</th>
+        <th>Discharge</th>
+        <th>Add</th>
+        <th>Remove</th>
     </tr>
     <tr *ngFor="let user of users">
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
         <!-- <td>{{ user.password }}</td> -->
-        <td>{{ user.canCreateUsers ? 'Yes' : 'No' }}</td>
-        <td>{{ user.canReadUsers ? 'Yes' : 'No' }}</td>
-        <td>{{ user.canUpdateUsers ? 'Yes' : 'No' }}</td>
-        <td>{{ user.canDeleteUsers ? 'Yes' : 'No' }}</td>
+        <td [style.backgroundColor]="user.canCreateUsers ? '#90ee90' : null">{{ user.canCreateUsers ? 'Yes' : 'No' }}</td>
+        <td [style.backgroundColor]="user.canReadUsers ? '#90ee90' : null">{{ user.canReadUsers ? 'Yes' : 'No' }}</td>
+        <td [style.backgroundColor]="user.canUpdateUsers ? '#90ee90' : null">{{ user.canUpdateUsers ? 'Yes' : 'No' }}</td>
+        <td [style.backgroundColor]="user.canDeleteUsers ? '#90ee90' : null">{{ user.canDeleteUsers ? 'Yes' : 'No' }}</td>
+
+        <td [style.backgroundColor]="user.canSearchVacuum ? '#90ee90' : null">{{ user.canSearchVacuum ? 'Yes' : 'No' }}</td>
+        <td [style.backgroundColor]="user.canStartVacuum ? '#90ee90' : null">{{ user.canStartVacuum ? 'Yes' : 'No' }}</td>
+        <td [style.backgroundColor]="user.canStopVacuum ? '#90ee90' : null">{{ user.canStopVacuum ? 'Yes' : 'No' }}</td>
+        <td [style.backgroundColor]="user.canDischargeVacuum ? '#90ee90' : null">{{ user.canDischargeVacuum ? 'Yes' : 'No' }}</td>
+        <td [style.backgroundColor]="user.canAddVacuum ? '#90ee90' : null">{{ user.canAddVacuum ? 'Yes' : 'No' }}</td>
+        <td [style.backgroundColor]="user.canRemoveVacuum ? '#90ee90' : null">{{ user.canRemoveVacuum ? 'Yes' : 'No' }}</td>
         <button *ngIf="canUpdateUsers" (click)="updateUser(user)">Update</button>
         <button *ngIf="canDeleteUsers" (click)="deleteUser(user)">Delete</button>
     </tr>

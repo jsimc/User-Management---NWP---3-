@@ -19,7 +19,7 @@ header ul {
     /* Remove bullet points for lists */
     margin: 0;
     /* Remove list margin */
-    padding: 0;
+    padding: 10;
     /* Remove list padding */
 }
 
@@ -34,3 +34,13 @@ header a {
     text-decoration: none;
     /* Remove underlines from links */
 }
+
+ul li {
+    display: inline-block;
+    padding-right: 10px;
+    border-right:1px solid #000;
+}
+
+ul li:last-child { 
+    display: inline-block; border-right:none; 
+} 

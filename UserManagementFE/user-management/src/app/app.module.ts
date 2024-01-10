@@ -12,6 +12,9 @@ import { HeaderComponent } from './header/header.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { EditUserFormComponent } from './edit-user-form/edit-user-form.component';
 import { HomeComponent } from './home/home.component';
+import { SearchVacuumsComponent } from './vacuums/search-vacuums/search-vacuums.component';
+import { AddVacuumsComponent } from './vacuums/add-vacuums/add-vacuums.component';
+import { ErrorHistoryComponent } from './vacuums/error-history/error-history.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { HomeComponent } from './home/home.component';
     HeaderComponent,
     UserFormComponent,
     EditUserFormComponent,
-    HomeComponent
+    HomeComponent,
+    SearchVacuumsComponent,
+    AddVacuumsComponent,
+    ErrorHistoryComponent
   ],
   imports: [
     BrowserModule,
