@@ -17,6 +17,13 @@ public class UserMapper {
         userDto.setCanUpdateUsers(user.isCanUpdateUsers());
         userDto.setCanDeleteUsers(user.isCanDeleteUsers());
 
+        userDto.setCanSearchVacuum(user.isCanSearchVacuum());
+        userDto.setCanStartVacuum(user.isCanStartVacuum());
+        userDto.setCanStopVacuum(user.isCanStopVacuum());
+        userDto.setCanDischargeVacuum(user.isCanDischargeVacuum());
+        userDto.setCanAddVacuum(user.isCanAddVacuum());
+        userDto.setCanRemoveVacuum(user.isCanRemoveVacuum());
+
         return userDto;
     }
 
@@ -35,6 +42,14 @@ public class UserMapper {
         updatedUser.setCanUpdateUsers(userDto.isCanUpdateUsers());
         updatedUser.setCanDeleteUsers(userDto.isCanDeleteUsers());
         updatedUser.setCanReadUsers(userDto.isCanReadUsers());
+
+        updatedUser.setCanSearchVacuum(userDto.isCanSearchVacuum());
+        updatedUser.setCanStartVacuum(userDto.isCanStartVacuum());
+        updatedUser.setCanStopVacuum(userDto.isCanStopVacuum());
+        updatedUser.setCanDischargeVacuum(userDto.isCanDischargeVacuum());
+        updatedUser.setCanAddVacuum(userDto.isCanAddVacuum());
+        updatedUser.setCanRemoveVacuum(userDto.isCanRemoveVacuum());
+
         return updatedUser;
     }
 }

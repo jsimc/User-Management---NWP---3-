@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
 
+import org.springframework.lang.Nullable;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,4 +25,17 @@ public class UserDto {
     private boolean canUpdateUsers;
     @Nullable
     private boolean canDeleteUsers;
+
+    @Nullable
+    private boolean canSearchVacuum;
+    @Nullable
+    private boolean canStartVacuum;
+    @Nullable
+    private boolean canStopVacuum;
+    @Nullable
+    private boolean canDischargeVacuum;
+    @Nullable
+    private boolean canAddVacuum;
+    @Nullable
+    private boolean canRemoveVacuum;
 }
