@@ -24,7 +24,7 @@ public class Vacuum {
     @Column
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(/*cascade = {CascadeType.PERSIST, CascadeType.REFRESH}*/)
     @JoinColumn(name = "added_by")
     @JsonIgnore
     private User addedBy;

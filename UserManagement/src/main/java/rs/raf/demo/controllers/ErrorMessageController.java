@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import rs.raf.demo.model.ErrorMessage;
 import rs.raf.demo.services.ErrorMessageService;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/errors")
@@ -20,10 +22,8 @@ public class ErrorMessageController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<ErrorMessage>> getAllErrors(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size) {
-        return new ResponseEntity<>(this.errorMessageService.paginate(page, size), HttpStatus.OK);
+    public ResponseEntity<List<ErrorMessage>> getAllErrors() {
+        return new ResponseEntity<>(this.errorMessageService.findAll(), HttpStatus.OK);
     }
 
 }
