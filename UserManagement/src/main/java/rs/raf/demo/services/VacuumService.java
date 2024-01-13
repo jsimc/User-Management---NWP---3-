@@ -227,8 +227,8 @@ public class VacuumService implements IService<Vacuum, Long> {
     }
 
     @Override
-    public Optional<Vacuum> findById(Long var1) {
-        return Optional.empty();
+    public Optional<Vacuum> findById(Long id) {
+        return vacuumRepository.findById(id);
     }
 
     @Override

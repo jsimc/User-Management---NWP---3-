@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import rs.raf.demo.dtos.UserDto;
 import rs.raf.demo.exceptions.UserException;
 import rs.raf.demo.exceptions.VacuumException;
+import rs.raf.demo.model.ErrorMessage;
 import rs.raf.demo.model.User;
 import rs.raf.demo.model.Vacuum;
 import rs.raf.demo.services.VacuumService;
@@ -24,6 +25,15 @@ public class VacuumController {
 
     public VacuumController(VacuumService vacuumService) {
         this.vacuumService = vacuumService;
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Vacuum> getById(
+            @PathVariable(name = "id") Long id) throws VacuumException {
+        return new ResponseEntity<>(vacuumService.findById(id)
+            .orElseThrow(() ->
+            new VacuumException(new ErrorMessage(id, "VacuumService.start(Long vacuumId)", "There is no vacuum with the id: " + id))
+        ), HttpStatus.OK);
     }
 
     @GetMapping(value = "/search")
