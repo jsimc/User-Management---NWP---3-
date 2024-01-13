@@ -12,6 +12,6 @@ import java.util.List;
 public interface ErrorMessageRepository extends JpaRepository<ErrorMessage, Long> {
     @Query(nativeQuery = true,
     value = "select * from error_message em " +
-            "where em.vacuum_id in (select vacuum_id from user_vacuum where user_id = :userId);")
+            "where em.vacuum_id in (select vacuum_id from vacuum where added_by = :userId);")
     List<ErrorMessage> findAllForUser(@Param("userId") Long userId);
 }
