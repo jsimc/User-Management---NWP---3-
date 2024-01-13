@@ -1,0 +1,28 @@
+<p>Vacuum name: {{ selectedVacuum.name }}</p>
+<p>Status: {{ selectedVacuum.status }}</p>
+
+<button *ngIf="canStartVacuum" (click)="start()">Start Vacuum</button>
+<button *ngIf="canStopVacuum" (click)="stop()">Stop Vacuum</button>
+<button *ngIf="canDischargeVacuum"  (click)="discharge()">Discharge Vacuum</button>
+
+<h2>Schedule task: </h2>
+
+<div>
+    <label for="operation">Operation:</label>
+    <select id="operation" [(ngModel)]="selectedOperation" name="operation" required>
+      <option *ngIf="canStartVacuum" value="start">Start</option>
+      <option *ngIf="canStopVacuum" value="stop">Stop</option>
+      <option *ngIf="canDischargeVacuum" value="discharge">Discharge</option>
+    </select>
+  </div>
+  
+<div>
+    <label for="dateTime">Date and Time:</label>
+    <input type="datetime-local" id="dateTime" [(ngModel)]="selectedDateTime" name="dateTime" required>
+</div>
+<div>
+    <button (click)="schedule()">Schedule</button>
+</div>
+<!-- <div *ngIf="loading" class="loading-text">
+    <p>Loading<span class="dots">...</span></p>
+</div> -->

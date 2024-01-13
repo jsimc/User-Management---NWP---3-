@@ -8,18 +8,16 @@ import { VacuumService } from 'src/app/services/vacuum.service';
 })
 export class AddVacuumsComponent {
   vacuumName!: string;
-  response: any;
   constructor(private vacuumService: VacuumService) {}
 
   add() {
     this.vacuumService.add(this.vacuumName).subscribe({
       error: (err) => { 
-        console.log('err: ', err);
+        console.log('err: ', err.message);
         alert(err);
       },
-      next: (response) => {
-        console.log(response);
-        this.response = response;
+      next: (addedVacuum) => {
+        alert(`Added vacuum: ${addedVacuum.name}`);
       }
     });
   }

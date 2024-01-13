@@ -43,7 +43,6 @@ export class UserService {
   }
 
   updateUser(updatedUser: any, id: number) {
-
     return this.httpClient.put<any>(`http://localhost:8080/api/users/update/${id}`, updatedUser);
   }
 

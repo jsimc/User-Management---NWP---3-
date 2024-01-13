@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { SearchVacuumsComponent } from './vacuums/search-vacuums/search-vacuums.component';
 import { AddVacuumsComponent } from './vacuums/add-vacuums/add-vacuums.component';
 import { ErrorHistoryComponent } from './vacuums/error-history/error-history.component';
+import { OperationVacuumsComponent } from './vacuums/operation-vacuums/operation-vacuums.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -20,6 +21,8 @@ const routes: Routes = [
     { path: 'search', component: SearchVacuumsComponent, canActivate: [canActivate] },
     { path: 'add', component: AddVacuumsComponent, canActivate: [canActivate] },
     { path: 'errors', component: ErrorHistoryComponent, canActivate: [canActivate] },
+    { path: 'vacuum-details', component: OperationVacuumsComponent, canActivate: [canActivate] },
+
     // Add other routes as needed
     { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect to home if no path is provided
   ];

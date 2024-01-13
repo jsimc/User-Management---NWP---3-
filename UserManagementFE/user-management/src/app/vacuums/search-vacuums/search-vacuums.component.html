@@ -49,6 +49,8 @@
           <td>{{ vacuum.name }}</td>
           <td>{{ vacuum.status }}</td>
           <td>{{ vacuum.dateCreated | date }}</td>
+          <button (click)="navigateToDetails(vacuum.vacuumId)">Details</button>
+          <button *ngIf="canRemoveVacuum" (click)="removeVacuum(vacuum.vacuumId)">Remove</button>
       </tr>
   </table>
 </div>

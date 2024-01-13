@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { SearchVacuumsComponent } from './vacuums/search-vacuums/search-vacuums.component';
 import { AddVacuumsComponent } from './vacuums/add-vacuums/add-vacuums.component';
 import { ErrorHistoryComponent } from './vacuums/error-history/error-history.component';
+import { OperationVacuumsComponent } from './vacuums/operation-vacuums/operation-vacuums.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ErrorHistoryComponent } from './vacuums/error-history/error-history.com
     HomeComponent,
     SearchVacuumsComponent,
     AddVacuumsComponent,
-    ErrorHistoryComponent
+    ErrorHistoryComponent,
+    OperationVacuumsComponent,
   ],
   imports: [
     BrowserModule,
